@@ -21,7 +21,7 @@ spec:
       - envFrom:
         - configMapRef:
             name: env-file-backend
-        image: crblanaru/demobookbe:{{ .Values.tag }}
+        image: crblanaru/backend:{{ .Values.tag }}
         imagePullPolicy: IfNotPresent
         name: backend
         ports:
@@ -86,7 +86,7 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-      - image: crblanaru/demobookfe:{{ .Values.tag }}
+      - image: crblanaru/frontend:{{ .Values.tag }}
         imagePullPolicy: IfNotPresent
         name: frontend
         ports:
