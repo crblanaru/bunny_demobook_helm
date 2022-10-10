@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: backend
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: env-file-backend
+        image: crblanaru/demobookbe:{{ .Values.tag }}
+        imagePullPolicy: IfNotPresent
+        name: backend
+        ports:
+        - containerPort: 3080
+        resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: env-file-db
+        image: postgres
+        imagePullPolicy: Always
+        name: db
+        ports:
+        - containerPort: 5432
+        resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o compose --pvc-request-size 1Gi
+    kompose.image-pull-policy: IfNotPresent
+    kompose.version: 1.24.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+      - image: crblanaru/demobookfe:{{ .Values.tag }}
+        imagePullPolicy: IfNotPresent
+        name: frontend
+        ports:
+        - containerPort: 8080
+        resources: {}
+      restartPolicy: Always
+status: {}

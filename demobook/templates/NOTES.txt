@@ -1,0 +1,1 @@
+1. Application was designed to be used for CI/CD demonstrations
