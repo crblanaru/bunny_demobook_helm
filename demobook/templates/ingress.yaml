@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: bns-nginx
   rules:
-  - host: {{ .Values.ingressurlfe }}
+  - host: {{ .Values.ingressurlbe }}
     http:
       paths:
       - backend:
@@ -20,7 +20,7 @@ spec:
               number: 3080
         path: /
         pathType: Prefix
-  - host: {{ .Values.ingressurlbe }}
+  - host: {{ .Values.ingressurlfe }}
     http:
       paths:
       - backend:
